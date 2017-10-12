@@ -1,6 +1,6 @@
 <?php
 
-namespace OuterEdge\MultipleFilter\Model\Layer;
+namespace OuterEdge\Filter\Model\Layer;
 
 use Magento\Catalog\Model\Layer\Category as LayerCategory;
 

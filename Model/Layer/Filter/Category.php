@@ -1,6 +1,6 @@
 <?php
 
-namespace OuterEdge\MultipleFilter\Model\Layer\Filter;
+namespace OuterEdge\Filter\Model\Layer\Filter;
 
 use Magento\CatalogSearch\Model\Layer\Filter\Category as FilterCategory;
 use Magento\Catalog\Model\Layer\Filter\DataProvider\Category as CategoryDataProvider;

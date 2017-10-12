@@ -1,6 +1,6 @@
 <?php
 
-namespace OuterEdge\MultipleFilter\Model\ResourceModel\Fulltext;
+namespace OuterEdge\Filter\Model\ResourceModel\Fulltext;
 
 use Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection as FulltextCollection;
 

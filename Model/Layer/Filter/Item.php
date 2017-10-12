@@ -1,6 +1,6 @@
 <?php
 
-namespace OuterEdge\MultipleFilter\Model\Layer\Filter;
+namespace OuterEdge\Filter\Model\Layer\Filter;
 
 use Magento\Catalog\Model\Layer\Filter\Item as FilterItem;
 use Magento\Framework\App\RequestInterface;

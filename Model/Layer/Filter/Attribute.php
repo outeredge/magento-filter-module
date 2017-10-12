@@ -1,6 +1,6 @@
 <?php
 
-namespace OuterEdge\MultipleFilter\Model\Layer\Filter;
+namespace OuterEdge\Filter\Model\Layer\Filter;
 
 use Magento\CatalogSearch\Model\Layer\Filter\Attribute as FilterAttribute;
 use Magento\Framework\Filter\StripTags;
