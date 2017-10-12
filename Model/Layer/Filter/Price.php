@@ -159,7 +159,8 @@ class Price extends FilterPrice
         $this->_requestVar = $attribute->getAttributeCode();
 
         /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $productCollection */
-        $productCollection = $this->getLayer()->getCollectionProvider()->getCollection($this->getLayer()->getCurrentCategory());
+        $productCollection = $this->getLayer()->getCollectionProvider()
+            ->getCollection($this->getLayer()->getCurrentCategory());
         $this->getLayer()->prepareProductCollection($productCollection);
 
         $facets = $productCollection->getFacetedData($attribute->getAttributeCode());

@@ -116,7 +116,7 @@ class Attribute extends FilterAttribute
                 ? (int)$optionsFacetedData[$value]['count']
                 : 0;
             // Check filter type
-            if ($this->getAttributeIsFilterable($attribute) === static::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS 
+            if ($this->getAttributeIsFilterable($attribute) === static::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS
                 && $count === 0
             ) {
                 continue;
