@@ -1,6 +1,6 @@
 {
-    "name": "outeredge/magento-multiple-filter-module",
-    "description": "Magento Multiple Filter Module by outer/edge",
+    "name": "outeredge/magento-filter-module",
+    "description": "Magento Filter Module by outer/edge",
     "type": "magento2-module",
     "license": [
         "MIT"
