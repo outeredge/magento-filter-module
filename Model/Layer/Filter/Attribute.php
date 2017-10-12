@@ -10,6 +10,7 @@ use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Layer\Filter\Item\DataBuilder;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\LocalizedException;
+use OuterEdge\Filter\Helper\Data as Helper;
 
 class Attribute extends FilterAttribute
 {
@@ -17,6 +18,11 @@ class Attribute extends FilterAttribute
      * @var StripTags
      */
     private $tagFilter;
+    
+    /**
+     * @var Helper
+     */
+    private $helper;
 
     /**
      * @param ItemFactory $filterItemFactory
@@ -24,6 +30,7 @@ class Attribute extends FilterAttribute
      * @param Layer $layer
      * @param DataBuilder $itemDataBuilder
      * @param StripTags $tagFilter
+     * @param Helper $helper
      * @param array $data
      */
     public function __construct(
@@ -32,6 +39,7 @@ class Attribute extends FilterAttribute
         Layer $layer,
         DataBuilder $itemDataBuilder,
         StripTags $tagFilter,
+        Helper $helper,
         array $data = []
     ) {
         parent::__construct(
@@ -43,6 +51,7 @@ class Attribute extends FilterAttribute
             $data
         );
         $this->tagFilter = $tagFilter;
+        $this->helper = $helper;
     }
 
     /**
@@ -55,6 +64,10 @@ class Attribute extends FilterAttribute
      */
     public function apply(RequestInterface $request)
     {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::apply($request);
+        }
+        
         $attributeValues = $request->getParam($this->_requestVar, []);
         if (empty($attributeValues)) {
             return $this;
@@ -88,6 +101,10 @@ class Attribute extends FilterAttribute
      */
     protected function _getItemsData()
     {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::_getItemsData();
+        }
+        
         $attribute = $this->getAttributeModel();
 
         /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $productCollection */

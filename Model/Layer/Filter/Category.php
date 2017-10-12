@@ -12,6 +12,7 @@ use Magento\Framework\Escaper;
 use Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory as CategoryDataProviderFactory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Framework\App\RequestInterface;
+use OuterEdge\Filter\Helper\Data as Helper;
 
 class Category extends FilterCategory
 {
@@ -29,6 +30,11 @@ class Category extends FilterCategory
      * @var CategoryFactory
      */
     private $categoryFactory;
+    
+    /**
+     * @var Helper
+     */
+    private $helper;
 
     /**
      * @param ItemFactory $filterItemFactory
@@ -38,6 +44,7 @@ class Category extends FilterCategory
      * @param Escaper $escaper
      * @param CategoryDataProviderFactory $categoryDataProviderFactory
      * @param CategoryFactory $categoryFactory
+     * @param Helper $helper
      * @param array $data
      */
     public function __construct(
@@ -48,6 +55,7 @@ class Category extends FilterCategory
         Escaper $escaper,
         CategoryDataProviderFactory $categoryDataProviderFactory,
         CategoryFactory $categoryFactory,
+        Helper $helper,
         array $data = []
     ) {
         parent::__construct(
@@ -62,6 +70,7 @@ class Category extends FilterCategory
         $this->escaper = $escaper;
         $this->dataProvider = $categoryDataProviderFactory->create(['layer' => $this->getLayer()]);
         $this->categoryFactory = $categoryFactory;
+        $this->helper = $helper;
     }
 
     /**
@@ -74,6 +83,10 @@ class Category extends FilterCategory
      */
     public function apply(RequestInterface $request)
     {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::apply($request);
+        }
+        
         $mainCategoryId = $request->getParam('id');
         $this->dataProvider->setCategoryId($mainCategoryId);
         $mainCategory = $this->dataProvider->getCategory();
@@ -117,6 +130,10 @@ class Category extends FilterCategory
      */
     protected function _getItemsData()
     {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::_getItemsData();
+        }
+        
         /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getCollectionProvider()
             ->getCollection($this->getLayer()->getCurrentCategory());

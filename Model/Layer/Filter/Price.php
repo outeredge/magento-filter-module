@@ -14,6 +14,7 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory;
 use Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory;
 use Magento\Framework\App\RequestInterface;
+use OuterEdge\Filter\Helper\Data as Helper;
 
 class Price extends FilterPrice
 {
@@ -23,6 +24,11 @@ class Price extends FilterPrice
      * @var PriceItemFactory
      */
     protected $priceFilterItemFactory;
+    
+    /**
+     * @var Helper
+     */
+    private $helper;
 
     /**
      * @param ItemFactory $filterItemFactory
@@ -35,6 +41,7 @@ class Price extends FilterPrice
      * @param PriceCurrencyInterface $priceCurrency
      * @param AlgorithmFactory $algorithmFactory
      * @param PriceFactory $dataProviderFactory
+     * @param Helper $helper
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -50,6 +57,7 @@ class Price extends FilterPrice
         PriceCurrencyInterface $priceCurrency,
         AlgorithmFactory $algorithmFactory,
         PriceFactory $dataProviderFactory,
+        Helper $helper,
         array $data = []
     ) {
         parent::__construct(
@@ -66,6 +74,7 @@ class Price extends FilterPrice
             $data
         );
         $this->dataProvider = $dataProviderFactory->create(['layer' => $this->getLayer()]);
+        $this->helper = $helper;
     }
 
     /**
@@ -77,6 +86,10 @@ class Price extends FilterPrice
      */
     public function apply(RequestInterface $request)
     {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::apply($request);
+        }
+        
         $filters = $request->getParam($this->getRequestVar(), []);
         if (empty($filters)) {
             return $this;
@@ -127,10 +140,14 @@ class Price extends FilterPrice
 
             foreach ($priceFilters as $priceFilter) {
                 foreach ($where as $attribute => &$conditions) {
-                    $conditions[] = implode(' AND ', [
-                        $connection->quoteInto("{$attribute} >= ?", $priceFilter['from']),
-                        $connection->quoteInto("{$attribute} <= ?", $priceFilter['to']),
-                    ]);
+                    $condition = [];
+                    if (isset($priceFilter['from'])) {
+                        $condition[] = $connection->quoteInto("{$attribute} >= ?", $priceFilter['from']);
+                    }
+                    if (isset($priceFilter['to'])) {
+                        $condition[] = $connection->quoteInto("{$attribute} <= ?", $priceFilter['to']);
+                    }
+                    $conditions[] = implode(' AND ', $condition);
                 }
             }
 
@@ -155,6 +172,10 @@ class Price extends FilterPrice
      */
     protected function _getItemsData()
     {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::_getItemsData();
+        }
+        
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
 
@@ -186,6 +207,10 @@ class Price extends FilterPrice
      */
     private function prepareData($key, $count)
     {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::prepareData($key, $count);
+        }
+        
         list($from, $to) = explode('_', $key);
         if ($from == '*') {
             $from = $this->getFrom($to);
