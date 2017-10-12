@@ -103,7 +103,7 @@ class Price extends FilterPrice
             }
 
             list($from, $to) = $filter;
-            $priceFilter = ['from' => $from, 'to' =>  empty($to) || $from == $to ? $to : $to - self::PRICE_DELTA];
+            $priceFilter = ['from' => $from, 'to' => empty($to) || $from == $to ? $to : $to - self::PRICE_DELTA];
             if (!strlen($priceFilter['to'])) {
                 unset($priceFilter['to']);
             }
@@ -115,7 +115,6 @@ class Price extends FilterPrice
         }
 
         if (!empty($priceFilters)) {
-
             $collection = $this->getLayer()->getProductCollection();
             $connection = $collection->getConnection();
 

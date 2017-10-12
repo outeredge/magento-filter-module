@@ -93,4 +93,3 @@ class Item extends FilterItem
         return $this->request->getParam($this->getFilter()->getRequestVar(), []);
     }
 }
-

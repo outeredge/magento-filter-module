@@ -91,7 +91,8 @@ class Attribute extends FilterAttribute
         $attribute = $this->getAttributeModel();
 
         /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $productCollection */
-        $productCollection = $this->getLayer()->getCollectionProvider()->getCollection($this->getLayer()->getCurrentCategory());
+        $productCollection = $this->getLayer()->getCollectionProvider()
+            ->getCollection($this->getLayer()->getCurrentCategory());
         $this->getLayer()->prepareProductCollection($productCollection);
 
         $optionsFacetedData = $productCollection->getFacetedData($attribute->getAttributeCode());
@@ -115,7 +116,9 @@ class Attribute extends FilterAttribute
                 ? (int)$optionsFacetedData[$value]['count']
                 : 0;
             // Check filter type
-            if ($this->getAttributeIsFilterable($attribute) === static::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS && $count === 0) {
+            if ($this->getAttributeIsFilterable($attribute) === static::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS 
+                && $count === 0
+            ) {
                 continue;
             }
             $this->itemDataBuilder->addItemData(

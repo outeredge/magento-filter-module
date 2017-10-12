@@ -102,7 +102,8 @@ class Category extends FilterCategory
         }
 
         if (!empty($categoryFilterProductIds)) {
-            $this->getLayer()->getProductCollection()->addAttributeToFilter('entity_id', ['in' => $categoryFilterProductIds]);
+            $this->getLayer()->getProductCollection()
+                ->addAttributeToFilter('entity_id', ['in' => $categoryFilterProductIds]);
         }
 
         return $this;
@@ -117,12 +118,12 @@ class Category extends FilterCategory
     protected function _getItemsData()
     {
         /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $productCollection */
-        $productCollection = $this->getLayer()->getCollectionProvider()->getCollection($this->getLayer()->getCurrentCategory());
+        $productCollection = $this->getLayer()->getCollectionProvider()
+            ->getCollection($this->getLayer()->getCurrentCategory());
         $optionsFacetedData = $productCollection->getFacetedData('category');
 
         $category = $this->dataProvider->getCategory();
         if ($category->getIsActive()) {
-
             $categories = $category->getChildrenCategories();
             foreach ($categories as $category) {
                 if ($category->getIsActive()
