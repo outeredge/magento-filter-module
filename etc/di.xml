@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <preference for="Magento\Catalog\Model\Layer\Category" type="OuterEdge\MultipleFilter\Model\Layer\Category"/>
+    <preference for="Magento\CatalogSearch\Model\Layer\Filter\Attribute" type="OuterEdge\MultipleFilter\Model\Layer\Filter\Attribute"/>
+    <preference for="Magento\CatalogSearch\Model\Layer\Filter\Price" type="OuterEdge\MultipleFilter\Model\Layer\Filter\Price"/>
+    <preference for="Magento\CatalogSearch\Model\Layer\Filter\Category" type="OuterEdge\MultipleFilter\Model\Layer\Filter\Category"/>
+    <preference for="Magento\Catalog\Model\Layer\Filter\Item" type="OuterEdge\MultipleFilter\Model\Layer\Filter\Item"/>
+    <preference for="Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection" type="OuterEdge\MultipleFilter\Model\ResourceModel\Fulltext\Collection"/>
+</config>
