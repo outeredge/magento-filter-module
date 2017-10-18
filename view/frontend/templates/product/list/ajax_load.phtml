@@ -32,7 +32,10 @@ require([
             return;
         }
         window.productListAjaxLoading = true;
-        $.get(ajaxUrl).done(function(response) {
+        $.ajax({
+            url: ajaxUrl,
+            showLoader: true
+        }).done(function(response) {
             $(document).find('#maincontent > .columns').replaceWith($(response).find('#maincontent > .columns'));
             $(document).find('#maincontent > .columns').trigger('contentUpdated');
             window.productListAjaxLoading = false;
