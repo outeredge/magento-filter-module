@@ -13,26 +13,13 @@ class Data extends AbstractHelper
     
     /**
      * Check whether multiple filters are active
-     * 
+     *
      * @return boolean
      */
     public function isMultipleFilterActive()
     {
         return $this->scopeConfig->isSetFlag(
             self::XML_PATH_CONFIG_MULTIPLE_FILTER_ACTIVE,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-    
-    /**
-     * Check whether ajax loading is active
-     * 
-     * @return boolean
-     */
-    public function isAjaxLoadingActive()
-    {
-        return $this->scopeConfig->isSetFlag(
-            self::XML_PATH_CONFIG_AJAX_LOAD_ACTIVE,
             ScopeInterface::SCOPE_STORE
         );
     }
