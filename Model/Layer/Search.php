@@ -11,4 +11,3 @@ class Search extends LayerSearch
         return $this->collectionProvider;
     }
 }
-
