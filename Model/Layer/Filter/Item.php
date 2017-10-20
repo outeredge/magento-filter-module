@@ -43,22 +43,30 @@ class Item extends FilterItem
      *
      * @return string
      */
-    public function getUrl()
+    public function getUrl($isRemoveUrl = false)
     {
         if (!$this->helper->isMultipleFilterActive()) {
             return parent::getUrl();
         }
         
-        $value = $this->getValue();
-
         $filters = $this->getCurrentFilters();
         if (!is_array($filters)) {
             $filters = [$filters];
         }
-        if (!in_array($value, $filters)) {
+        
+        $value = $this->getValue();
+        
+        if (!$isRemoveUrl && !in_array($value, $filters)) {
             $filters[] = $value;
         } else {
-            unset($filters[array_search($value, $filters)]);
+            if ($isRemoveUrl && $this->getFilter()->getRequestVar() === 'price' && is_array($value)) {
+                $value = implode('-', $value);
+            }
+            
+            $valueKey = array_search($value, $filters);
+            if ($valueKey !== false) {
+                unset($filters[$valueKey]);
+            }
         }
 
         $query = [
@@ -67,6 +75,20 @@ class Item extends FilterItem
             $this->_htmlPagerBlock->getPageVarName() => null,
         ];
         return $this->_url->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true, '_query' => $query]);
+    }
+    
+    /**
+     * Get url to remove item from filter
+     *
+     * @return string
+     */
+    public function getRemoveUrl()
+    {
+        if (!$this->helper->isMultipleFilterActive()) {
+            return parent::getRemoveUrl();
+        }
+        
+        return $this->getUrl(true);
     }
     
     /**

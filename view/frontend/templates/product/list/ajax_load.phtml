@@ -2,7 +2,7 @@
 require([
     'jquery',
     'Magento_Catalog/js/product/list/toolbar'
-], function($) {
+], function($, Messages) {
     
     $.mage.productListToolbarForm.prototype.changeUrl = function (paramName, paramValue, defaultValue) {
         var decode = window.decodeURIComponent;
@@ -38,6 +38,9 @@ require([
         }).done(function(response) {
             $(document).find('#maincontent > .columns').replaceWith($(response).find('#maincontent > .columns'));
             $(document).find('#maincontent > .columns').trigger('contentUpdated');
+        }).fail(function(response) {
+            // Error Message
+        }).always(function(){
             window.productListAjaxLoading = false;
         });
     };

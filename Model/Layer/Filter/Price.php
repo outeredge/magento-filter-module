@@ -19,13 +19,6 @@ use OuterEdge\Filter\Helper\Data as Helper;
 class Price extends FilterPrice
 {
     /**
-     * Price filter item factory
-     *
-     * @var PriceItemFactory
-     */
-    protected $priceFilterItemFactory;
-    
-    /**
      * @var Helper
      */
     private $helper;
