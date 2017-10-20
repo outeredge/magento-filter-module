@@ -2,7 +2,7 @@
 require([
     'jquery',
     'Magento_Catalog/js/product/list/toolbar'
-], function($, Messages) {
+], function($) {
     
     $.mage.productListToolbarForm.prototype.changeUrl = function (paramName, paramValue, defaultValue) {
         var decode = window.decodeURIComponent;
@@ -39,7 +39,11 @@ require([
             $(document).find('#maincontent > .columns').replaceWith($(response).find('#maincontent > .columns'));
             $(document).find('#maincontent > .columns').trigger('contentUpdated');
         }).fail(function(response) {
-            // Error Message
+            var $messages = $('[data-placeholder="messages"]');
+            if ($messages.length) {
+                $messages.append($('<div>', {class: 'message error message-error', 'data-ui-id': 'message-error'}).append($('<div>').html('An error occured whilst filtering the products.')));
+                $('html,body').animate({scrollTop: $messages.offset().top});
+            }
         }).always(function(){
             window.productListAjaxLoading = false;
         });
